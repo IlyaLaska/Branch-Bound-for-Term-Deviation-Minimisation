@@ -44,7 +44,7 @@ def createStartingPaths(tasks, pathsStorage):
 
 def insertPath(tasks, pathsStorage, newPathAddition, oldPathDict, maxWeight, bestPath):
   newPathsStorage = addPath(tasks, pathsStorage, newPathAddition, maxWeight, oldPathDict)
-  newMaxWeight, newBestPath = updateMaxWeightBestPath(tasks, pathsStorage, maxWeight, bestPath)
+  newMaxWeight, newBestPath = updateMaxWeightBestPath(tasks, newPathsStorage, maxWeight, bestPath)
   if newMaxWeight != maxWeight:
     newPathsStorage = removeOverweightPaths(newPathsStorage, newMaxWeight)
   return newPathsStorage, newMaxWeight, newBestPath
