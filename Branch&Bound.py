@@ -24,10 +24,13 @@ def newCCalc(tasks, newPathAddition, oldC):
 
 def newWeightCalc(tasks, newPathAddition, oldC, oldWeight):
   timeDiff = (oldC + tasks[newPathAddition]['l']) - tasks[newPathAddition]['D']
+  # print(timeDiff)
   if timeDiff > 0:#past deadline
     return tasks[newPathAddition]['b'] * timeDiff + oldWeight
   elif timeDiff < 0:#pre deadline
     return tasks[newPathAddition]['a'] * abs(timeDiff) + oldWeight
+  else:
+    return oldWeight
 
 #step 1
 def createStartingPaths(tasks, pathsStorage):
@@ -56,6 +59,7 @@ def addPath(tasks, pathsStorage, newPathAddition, maxWeight, oldPathDict={'path'
   toAdd = {'path':newPathArr, 'C':None, 'weight':None, 'alive': None}
   toAdd['C'] = newCCalc(tasks, newPathAddition, oldPathDict['C'])
   toAdd['weight'] = newWeightCalc(tasks, newPathAddition, oldPathDict['C'], oldPathDict['weight'])
+  # print('toAdd', toAdd)
   if toAdd['weight'] < maxWeight:#if within allowed weight
     duplicates = getDuplicates(pathsStorage, newPathArr)
     if len(duplicates) == 0:#unique path
@@ -106,7 +110,7 @@ def main():
   maxWeight = 1000000#sufficiently large value
   bestPath = None
   pathsStorage = []
-
+  # print(tasks)
   pathsStorage = createStartingPaths(tasks, pathsStorage)
 
   while len(list(filter(lambda pathDict: (pathDict['alive'] == True) and (len(pathDict['path']) < len(tasks)), pathsStorage))) > 0:#there are alive banches that are not complete
